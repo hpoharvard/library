@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>HU Libraries</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.7/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "dojo/domReady!"
+      ],
+      function(
+        Map, MapView, FeatureLayer
+      ) {
+
+         var lRenderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+            size: 8,
+            color: "#0408FC",
+            outline: { // autocasts as new SimpleLineSymbol()
+              color: [5, 200, 252, 0.4], // autocasts as new Color()
+              width: 5
+            }
+          }
+        };
+
+        var map = new Map({
+          basemap: "topo"
+        });
+        
+        var view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-71.116076,42.37335],
+          zoom: 17          
+        });
+       
+        /********************
+         * Add feature layer
+         ********************/
+        var libraryLayer = new FeatureLayer({
+          url: "https://devtmap.cadm.harvard.edu/server/rest/services/Hosted/Libraries/FeatureServer/0",
+          renderer: lRenderer         
+        });
+            
+        map.add(libraryLayer);
+      });
+  </script>
+</head>
+<body><div id="viewDiv"></div></body>
+
+</html>
