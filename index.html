@@ -29,8 +29,8 @@
       function(
         Map, MapView, FeatureLayer
       ) {
-
-         var lRenderer = {
+        // create a rendering
+        var lRenderer = {
           type: "simple", // autocasts as new SimpleRenderer()
           symbol: {
             type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
@@ -41,6 +41,11 @@
               width: 5
             }
           }
+        };
+        // create a popup template    
+        var libraryPopup = { // autocasts as new PopupTemplate()
+          title: "ID: {ID}",
+          content: "Locations: {Latitude}, {Longitude}"    
         };
 
         var map = new Map({
@@ -59,13 +64,20 @@
          ********************/
         var libraryLayer = new FeatureLayer({
           url: "https://devtmap.cadm.harvard.edu/server/rest/services/Hosted/Libraries/FeatureServer/0",
-          renderer: lRenderer         
+          renderer: lRenderer,
+          popupTemplate: libraryPopup,         
         });
             
         map.add(libraryLayer);
+
+        view.on("click", function(event){
+          //console.log(event.mapPoint)
+          view.popup.location = event.mapPoint;
+          // Displays the popup
+          view.popup.visible = true;
+        });
       });
   </script>
 </head>
 <body><div id="viewDiv"></div></body>
-
 </html>
