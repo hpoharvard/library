@@ -69,12 +69,14 @@
         });
             
         map.add(libraryLayer);
-
+        
         view.on("click", function(event){
           //console.log(event.mapPoint)
-          view.popup.location = event.mapPoint;
+          view.center = event.mapPoint;
+          view.popup.dockEnabled = true;
+          //view.popup.location = event.mapPoint;
           // Displays the popup
-          view.popup.visible = true;
+          view.popup.visible = true;          
         });
       });
   </script>
